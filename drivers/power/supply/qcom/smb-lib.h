@@ -69,6 +69,10 @@ enum print_reason {
 #define OV_VOTER			"OV_VOTER"
 #define FCC_STEPPER_VOTER		"FCC_STEPPER_VOTER"
 
+#ifdef CONFIG_MACH_XIAOMI_MSM8998
+#define FB_SCREEN_VOTER			"FB_SCREEN_VOTER"
+#endif
+
 #define VCONN_MAX_ATTEMPTS	3
 #define OTG_MAX_ATTEMPTS	3
 #define BOOST_BACK_STORM_COUNT	3
@@ -268,6 +272,9 @@ struct smb_charger {
 
 	/* notifiers */
 	struct notifier_block	nb;
+#ifdef CONFIG_MACH_XIAOMI_MSM8998
+	struct notifier_block	fb_state_notifier;
+#endif
 
 	/* parallel charging */
 	struct parallel_params	pl;
@@ -315,6 +322,7 @@ struct smb_charger {
 	struct delayed_work	asus_adapter_adc_work;
 	struct delayed_work	asus_min_monitor_work;
 	struct delayed_work	asus_batt_RTC_work;
+	struct delayed_work	fb_state_work;
 	struct qpnp_vadc_chip	*gpio12_vadc_dev;
 #endif
 
@@ -326,7 +334,13 @@ struct smb_charger {
 	int			boost_threshold_ua;
 	int			system_temp_level;
 	int			thermal_levels;
+#ifdef CONFIG_MACH_XIAOMI_MSM8998
+	int			*thermal_mitigation_dcp;
+	int			*thermal_mitigation_qc3;
+	int			*thermal_mitigation_qc2;
+#else
 	int			*thermal_mitigation;
+#endif
 	int			dcp_icl_ua;
 	int			fake_capacity;
 	bool			step_chg_enabled;
@@ -355,6 +369,9 @@ struct smb_charger {
 	bool			use_extcon;
 	bool			otg_present;
 	bool			fcc_stepper_mode;
+#ifdef CONFIG_MACH_XIAOMI_MSM8998
+	bool			screen_on;
+#endif
 
 	/* workaround flag */
 	u32			wa_flags;
