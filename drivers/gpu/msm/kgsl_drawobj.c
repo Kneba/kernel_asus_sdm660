@@ -211,8 +211,8 @@ static void drawobj_sync_func(struct kgsl_device *device,
 {
 	struct kgsl_drawobj_sync_event *event = priv;
 
-	trace_syncpoint_timestamp_expire(event->syncobj,
-		event->context, event->timestamp);
+//	trace_syncpoint_timestamp_expire(event->syncobj,
+//		event->context, event->timestamp);
 
 	/*
 	 * Put down the context ref count only if
@@ -508,9 +508,9 @@ static int drawobj_add_sync_timestamp(struct kgsl_device *device,
 	if (ret) {
 		clear_bit(event->id, &syncobj->pending);
 		drawobj_put(drawobj);
-	} else {
-		trace_syncpoint_timestamp(syncobj, context, sync->timestamp);
-	}
+	} // else {
+//		trace_syncpoint_timestamp(syncobj, context, sync->timestamp);
+//	}
 
 done:
 	if (ret)
