@@ -343,15 +343,8 @@ static void cdfinger_async_report(void)
 
 static irqreturn_t cdfinger_eint_handler(int irq, void *dev_id)
 {
-#if 0
-/* Huaqin modify for cpu_boost by leiyu at 2018/04/25 start */
-	if(screen_status == 0)
-	{
-		sched_set_boost(1);
-	}
-/* Huaqin modify for cpu_boost by leiyu at 2018/04/25 end */
-#endif
 	struct cdfingerfp_data *pdata = g_cdfingerfp_data;
+
 	if (pdata->irq_enable_status == 1)
 	{
 		cdfinger_wake_lock(pdata,1);
@@ -374,39 +367,19 @@ static int cdfinger_reset_gpio_init(struct cdfingerfp_data *pdata, int ms)
 
 static int cdfinger_eint_gpio_init(struct cdfingerfp_data *pdata)
 {
-	/*int error = 0;
-
-	if(irq_flag == 0)
-	{
-		error =request_irq(gpio_to_irq(pdata->irq_num),cdfinger_eint_handler,IRQF_TRIGGER_RISING,"cdfinger_eint", NULL);
-		if (error < 0)
-		{
-			CDFINGER_ERR("cdfinger_eint_gpio_init error----------\n");
-			return error;
-		}
-		irq_flag = 1;
-	}else{
-		CDFINGER_DBG("irq has been requeseted!");
-	}
-		enable_irq_wake(gpio_to_irq(pdata->irq_num));
-		return error;
-*/
-/* Huaqin modify for cdfinger irq wake by leiyu at 2018/04/10 start */
 	int error = 0;
-/* Huaqin modify for cpu_boost by leiyu at 2018/04/25 start */
-	//error = commonfp_request_irq(NULL,cdfinger_eint_handler, IRQF_TRIGGER_RISING|IRQF_ONESHOT,"cdfinger_eint", (void*)pdata);
+
 	error = commonfp_request_irq(cdfinger_eint_handler,NULL, IRQF_TRIGGER_RISING,"cdfinger_eint", (void*)pdata);
-/* Huaqin modify for cpu_boost by leiyu at 2018/04/25 end */
 	if (error < 0)
 	{
 		CDFINGER_ERR("commonfp_request_irq error %d\n", error);
 		return error;
 	}
+
 	commonfp_irq_enable();
 	pdata->irq_enable_status = 1;
 	irq_flag = 1;
 	return error;
-/* Huaqin modify for cdfinger irq wake by leiyu at 2018/04/10 end */
 }
 
 
@@ -414,7 +387,6 @@ static void cdfinger_enable_irq(struct cdfingerfp_data *pdata)
 {
 	if (pdata->irq_enable_status == 0)
 	{
-//		commonfp_irq_enable();
 		enable_irq(gpio_to_irq(pdata->irq_num));
 		enable_irq_wake(gpio_to_irq(pdata->irq_num));
 		pdata->irq_enable_status = 1;
@@ -425,7 +397,6 @@ static void cdfinger_disable_irq(struct cdfingerfp_data *pdata)
 {
 	if (pdata->irq_enable_status == 1)
 	{
-//		commonfp_irq_disable();
 		disable_irq(gpio_to_irq(pdata->irq_num));
 		disable_irq_wake(gpio_to_irq(pdata->irq_num));
 		pdata->irq_enable_status = 0;
@@ -579,21 +550,16 @@ static int cdfinger_fb_notifier_callback(struct notifier_block* self,
 		if (isInKeyMode == 0)
 			cdfinger_async_report();
 		mutex_unlock(&g_cdfingerfp_data->buf_lock);
-#if 0
-/* Huaqin modify for cpu_boost by leiyu at 2018/04/25 start */
-		sched_set_boost(0);
-/* Huaqin modify for cpu_boost by leiyu at 2018/04/25 end */
-#endif
-            break;
+		break;
         case FB_BLANK_POWERDOWN:
 		mutex_lock(&g_cdfingerfp_data->buf_lock);
 		screen_status = 0;
 		if (isInKeyMode == 0)
 			cdfinger_async_report();
 		mutex_unlock(&g_cdfingerfp_data->buf_lock);
-            break;
+		break;
         default:
-            break;
+		break;
     }
 
     return retval;
@@ -639,7 +605,7 @@ static int cdfinger_probe(struct platform_device *pdev)
 	  cdfingerdev->cdfinger_input = NULL;
 	  goto unregister_dev;
 	}
-	
+
 	cdfingerdev->notifier.notifier_call = cdfinger_fb_notifier_callback;
     	fb_register_client(&cdfingerdev->notifier);
 	//cdfinger_power_on(cdfingerdev);
