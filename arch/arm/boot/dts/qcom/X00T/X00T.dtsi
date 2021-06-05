@@ -19,3 +19,4 @@
 #include "X00T-memory.dtsi"
 #include "X00T-pinctrl.dtsi"
 #include "X00T-tweaks.dtsi"
+#include "X00T-thermal-overlay.dtsi"
