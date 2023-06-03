@@ -196,7 +196,6 @@
 			qcom,actuator-type = "erm";
 		};
 	};
-};
 
 	qcom,pm660l@2 {
 		pm660l_gpios: gpios {
