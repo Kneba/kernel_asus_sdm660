@@ -13,6 +13,12 @@ VERSION=EOL
 TG_SUPER=0
 BOT_BUILD_URL="https://api.telegram.org/bot$TG_TOKEN/sendDocument"
 
+blue='\033[0;34m'
+cyan='\033[0;36m'
+yellow='\033[0;33m'
+red='\033[0;31m'
+nocol='\033[0m'
+
 tg_post_build()
 {
 	if [ $TG_SUPER = 1 ]
@@ -52,6 +58,7 @@ KERNEL_DEFCONFIG=X00TD_defconfig
 ANYKERNEL3_DIR=$KERNELDIR/AnyKernel3/
 TZ=Asia/Jakarta
 DATE=$(date '+%Y%m%d')
+BUILD_START=$(date +"%s")
 FINAL_KERNEL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$(date '+%Y%m%d-%H%M')"
 KERVER=$(make kernelversion)
 export PATH="$KERNELDIR/trb_clang/bin:$PATH"
@@ -63,13 +70,6 @@ export KBUILD_COMPILER_STRING="$($KERNELDIR/trb_clang/bin/clang --version | head
 
 # Speed up build process
 MAKE="./makeparallel"
-
-BUILD_START=$(date +"%s")
-blue='\033[0;34m'
-cyan='\033[0;36m'
-yellow='\033[0;33m'
-red='\033[0;31m'
-nocol='\033[0m'
 
 # Java
 command -v java > /dev/null 2>&1
@@ -84,7 +84,7 @@ echo "**** Kernel defconfig is set to $KERNEL_DEFCONFIG ****"
 echo -e "$blue***********************************************"
 echo "          BUILDING KERNEL          "
 echo -e "$red***********************************************"
-make $KERNEL_DEFCONFIG O=out
+make $KERNEL_DEFCONFIG O=out 2>&1 | tee -a error.log
 make -j$(nproc --all) O=out LLVM=1 \
 		ARCH=arm64 \
 		AS="$KERNELDIR/trb_clang/bin/llvm-as" \
@@ -98,13 +98,14 @@ make -j$(nproc --all) O=out LLVM=1 \
 		CLANG_TRIPLE=aarch64-linux-gnu- \
 		CROSS_COMPILE="$KERNELDIR/trb_clang/bin/clang" \
 		CROSS_COMPILE_COMPAT="$KERNELDIR/trb_clang/bin/clang" \
-		CROSS_COMPILE_ARM32="$KERNELDIR/trb_clang/bin/clang"
+		CROSS_COMPILE_ARM32="$KERNELDIR/trb_clang/bin/clang" 2>&1 | tee -a error.log
 
 echo "$blue**** Kernel Compilation Completed ****"
 echo "$cyan**** Verify Image.gz-dtb ****"
 
 if ! [ -f $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb ];then
     echo "$red Compile Failed!!!$nocol"
+    tg_post_build "error.log" "Build Error!"
     exit 1
 fi
 
