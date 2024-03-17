@@ -5,7 +5,7 @@
 KERNELDIR=$(pwd)
 
 # Identity
-CODENAME=Hayzel
+CODENAME=Onyx
 KERNELNAME=TheOneMemory
 VARIANT=HMP
 VERSION=EOL
@@ -32,11 +32,9 @@ tg_post_build()
 }
 
 if ! [ -d "$KERNELDIR/trb_clang" ]; then
-echo "trb_clang not found! Cloning..."
-if ! git clone https://gitlab.com/varunhardgamer/trb_clang --depth=1 -b 17 --single-branch trb_clang; then
-echo "Cloning failed! Aborting..."
-exit 1
-fi
+mkdir -p trb_clang && cd trb_clang
+bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=09092023
+cd ..
 fi
 
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
