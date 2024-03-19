@@ -31,8 +31,8 @@ tg_post_build()
 	fi
 }
 
-if ! [ -d "$KERNELDIR/trb_clang" ]; then
-mkdir -p trb_clang && cd trb_clang
+if ! [ -d "$KERNELDIR/neutron" ]; then
+mkdir -p neutron && cd neutron
 bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=05012024
 cd ..
 fi
@@ -52,12 +52,12 @@ TZ=Asia/Jakarta
 DATE=$(date '+%Y%m%d')
 FINAL_KERNEL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$(date '+%Y%m%d-%H%M')"
 KERVER=$(make kernelversion)
-export PATH="$KERNELDIR/trb_clang/bin:$PATH"
+export PATH="$KERNELDIR/neutron/bin:$PATH"
 export ARCH=arm64
 export SUBARCH=arm64
 export KBUILD_BUILD_USER="queen"
-export KBUILD_BUILD_HOST=$(source /etc/os-release && echo "${NAME}")
-export KBUILD_COMPILER_STRING="$($KERNELDIR/trb_clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
+#export KBUILD_BUILD_HOST=$(source /etc/os-release)
+export KBUILD_COMPILER_STRING="$($KERNELDIR/neutron/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 
 # Speed up build process
 MAKE="./makeparallel"
@@ -72,42 +72,37 @@ nocol='\033[0m'
 # Java
 command -v java > /dev/null 2>&1
 
-# Clean build always lol
-# echo "**** Cleaning ****"
-# rm -rf TheOneMemory*.zip
-mkdir -p out
-make O=out clean
-
 echo "**** Kernel defconfig is set to $KERNEL_DEFCONFIG ****"
 echo -e "$blue***********************************************"
 echo "          BUILDING KERNEL          "
 echo -e "$red***********************************************"
-make $KERNEL_DEFCONFIG O=out
+make $KERNEL_DEFCONFIG O=out 2>&1 | tee error.log
 make -j$(nproc --all) O=out LLVM=1\
 		ARCH=arm64 \
-		AS="$KERNELDIR/trb_clang/bin/llvm-as" \
-		CC="$KERNELDIR/trb_clang/bin/clang" \
-		LD="$KERNELDIR/trb_clang/bin/ld.lld" \
-		AR="$KERNELDIR/trb_clang/bin/llvm-ar" \
-		NM="$KERNELDIR/trb_clang/bin/llvm-nm" \
-		STRIP="$KERNELDIR/trb_clang/bin/llvm-strip" \
-		OBJCOPY="$KERNELDIR/trb_clang/bin/llvm-objcopy" \
-		OBJDUMP="$KERNELDIR/trb_clang/bin/llvm-objdump" \
+		AS="$KERNELDIR/neutron/bin/llvm-as" \
+		CC="$KERNELDIR/neutron/bin/clang" \
+		LD="$KERNELDIR/neutron/bin/ld.lld" \
+		AR="$KERNELDIR/neutron/bin/llvm-ar" \
+		NM="$KERNELDIR/neutron/bin/llvm-nm" \
+		STRIP="$KERNELDIR/neutron/bin/llvm-strip" \
+		OBJCOPY="$KERNELDIR/neutron/bin/llvm-objcopy" \
+		OBJDUMP="$KERNELDIR/neutron/bin/llvm-objdump" \
 		CLANG_TRIPLE=aarch64-linux-gnu- \
-		CROSS_COMPILE="$KERNELDIR/trb_clang/bin/clang" \
-		CROSS_COMPILE_COMPAT="$KERNELDIR/trb_clang/bin/clang" \
-		CROSS_COMPILE_ARM32="$KERNELDIR/trb_clang/bin/clang"
+		CROSS_COMPILE="$KERNELDIR/neutron/bin/clang" \
+		CROSS_COMPILE_COMPAT="$KERNELDIR/neutron/bin/clang" \
+		CROSS_COMPILE_ARM32="$KERNELDIR/neutron/bin/clang" 2>&1 | tee -a error.log
 
 echo "$blue**** Kernel Compilation Completed ****"
 echo "$cyan**** Verify Image.gz-dtb ****"
 
 if ! [ -f $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb ];then
+    tg_post_build "error.log" "Compile Error!!"
     echo "$red Compile Failed!!!$nocol"
     exit 1
 fi
 
 # Anykernel 3 time!!
-echo "$yellow**** Verifying AnyKernel3 Directory ****"
+echo "$yellow**** Verifying AnyKernel3 Directory ****$nocol"
 ls $ANYKERNEL3_DIR
 # echo "**** Removing leftovers ****"
 # rm -rf $ANYKERNEL3_DIR/Image.gz-dtb
@@ -164,13 +159,22 @@ curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw
 java -jar zipsigner-3.0.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
 ZIP_FINAL="$ZIP_FINAL-signed"
 
-#rm -rf $ANYKERNEL3_DIR/$FINAL_KERNEL_ZIP
-#rm -rf $ANYKERNEL3_DIR/Image.gz-dtb
-#rm -rf out/*
-
 BUILD_END=$(date +"%s")
 DIFF=$(($BUILD_END - $BUILD_START))
-echo -e "$cyan Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds.$nocol"
+echo -e "$cyan Build completed in $(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds.$nocol"
 
 echo "$cyan**** Uploading your zip now ****"
-tg_post_build "$ZIP_FINAL.zip" "Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds"
+tg_post_build "$ZIP_FINAL.zip" "⏲️ *Compile Time*
+$(($DIFF / 60)) minutes and $(($DIFF % 60)) seconds
+🐧 *Linux Version*
+${KERVER}
+💾 *Compiler*
+${KBUILD_COMPILER_STRING}
+📛 *Codename*
+${CODENAME}
+🆑 *Changelogs*
+\`\`\`
+$(git log --oneline -n5 | cut -d" " -f2- | awk '{print "• " $(A)}')
+\`\`\`"
+
+echo "$red**** Happy bootlooping ****$nocol"
