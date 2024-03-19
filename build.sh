@@ -33,7 +33,7 @@ tg_post_build()
 
 if ! [ -d "$KERNELDIR/trb_clang" ]; then
 mkdir -p trb_clang && cd trb_clang
-bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=09092023
+bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=05012024
 cd ..
 fi
 
@@ -129,7 +129,7 @@ sed -i "s/kernel.type=.*/kernel.type=$VARIANT/g" anykernel.sh
 sed -i "s/kernel.for=.*/kernel.for=$CODENAME/g" anykernel.sh
 sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
 sed -i "s/kernel.made=.*/kernel.made=dotkit @fakedotkit/g" anykernel.sh
-sed -i "s/kernel.version=.*/kernel.version=$VERSION/g" anykernel.sh
+sed -i "s/kernel.version=.*/kernel.version=$KERVER/g" anykernel.sh
 sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
 sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
 sed -i "s/build.type=.*/build.type=$VERSION/g" anykernel.sh
