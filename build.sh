@@ -33,7 +33,7 @@ tg_post_build()
 
 if ! [ -d "$KERNELDIR/neutron" ]; then
 mkdir -p neutron && cd neutron
-bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=05012024
+bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=10032024
 cd ..
 fi
 
@@ -50,7 +50,7 @@ KERNEL_DEFCONFIG=X00TD_defconfig
 ANYKERNEL3_DIR=$KERNELDIR/AnyKernel3/
 TZ=Asia/Jakarta
 DATE=$(date '+%Y%m%d')
-FINAL_KERNEL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$(date '+%Y%m%d-%H%M')"
+FINAL_KERNEL_ZIP="$KERNELNAME-$CODENAME-$VERSION-$VARIANT-$(date '+%Y%m%d-%H%M')"
 KERVER=$(make kernelversion)
 export PATH="$KERNELDIR/neutron/bin:$PATH"
 export ARCH=arm64
@@ -87,7 +87,6 @@ make -j$(nproc --all) O=out LLVM=1\
 		STRIP="$KERNELDIR/neutron/bin/llvm-strip" \
 		OBJCOPY="$KERNELDIR/neutron/bin/llvm-objcopy" \
 		OBJDUMP="$KERNELDIR/neutron/bin/llvm-objdump" \
-		CLANG_TRIPLE=aarch64-linux-gnu- \
 		CROSS_COMPILE="$KERNELDIR/neutron/bin/clang" \
 		CROSS_COMPILE_COMPAT="$KERNELDIR/neutron/bin/clang" \
 		CROSS_COMPILE_ARM32="$KERNELDIR/neutron/bin/clang" 2>&1 | tee -a error.log
