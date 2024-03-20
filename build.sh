@@ -33,7 +33,7 @@ tg_post_build()
 
 if ! [ -d "$KERNELDIR/neutron" ]; then
 mkdir -p neutron && cd neutron
-bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=10032024
+bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=09092023
 cd ..
 fi
 
