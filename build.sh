@@ -171,10 +171,6 @@ ${KERVER}
 💾 *Compiler*
 ${KBUILD_COMPILER_STRING}
 📛 *Codename*
-${CODENAME}
-🆑 *Changelogs*
-\`\`\`
-$(git log --oneline -n5 | cut -d" " -f2- | awk '{print "• " $(A)}')
-\`\`\`"
+${CODENAME}"
 
 echo "$red**** Happy bootlooping ****$nocol"
