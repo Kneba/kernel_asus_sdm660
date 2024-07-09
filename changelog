@@ -1,0 +1,17 @@
+<b><#selectbg_g>Jul 09,2024</#></b>
+
+  <*> Bringup TheOneMemory-Onyx</*>
+  <*> Overclock CPU 1.8+2.2GHz + GPU 585MHz</*>
+  <*> Remove debugfs dependency</*>
+  <*> Drop unbalanced obj unref</*>
+  <*> Avoid potential 32-bit integer overflow</*>
+  <*> define write entropy level to 8</*>
+  <*> KernelSU disable</*>
+
+
+
+<b><#selectbg_g>NOTES :</#></b>
+
+  <*> If There is an internal problem with your device warning show , just click ok and ignore.</*>
+  <*> Kernel need sometimes to settle.</*>
+  <*> For better results , Tweak with Kernel Manager or use Spectrum.</*>
