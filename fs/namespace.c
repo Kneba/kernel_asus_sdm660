@@ -1674,6 +1674,11 @@ static inline bool may_mount(void)
 	return ns_capable(current->nsproxy->mnt_ns->user_ns, CAP_SYS_ADMIN);
 }
 
+static inline bool path_mounted(const struct path *path)
+{
+	return path->mnt->mnt_root == path->dentry;
+}
+
 #ifdef CONFIG_KSU
 static int can_umount(const struct path *path, int flags)
 {
