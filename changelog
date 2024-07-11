@@ -1,17 +1,22 @@
-<b><#selectbg_g>Jul 09,2024</#></b>
+<b><#selectbg_g>Jul 11,2024</#></b>
 
   <*> Bringup TheOneMemory-Onyx</*>
   <*> Overclock CPU 1.8+2.2GHz + GPU 585MHz</*>
   <*> Remove debugfs dependency</*>
-  <*> Drop unbalanced obj unref</*>
+  <*> Drop unbalanced object unref</*>
   <*> Avoid potential 32-bit integer overflow</*>
   <*> define write entropy level to 8</*>
-  <*> KernelSU disable</*>
+  <*> KernelSU support</*>
 
 
 
 <b><#selectbg_g>NOTES :</#></b>
 
   <*> If There is an internal problem with your device warning show , just click ok and ignore.</*>
+  <*> Use KernelSU manager v0.7.6 for Android 9-10 ROMs</*>
+  <*> Use KernelSU manager v0.9.5 for Android 11-13 ROMs</*>
   <*> Kernel need sometimes to settle.</*>
-  <*> For better results , Tweak with Kernel Manager or use Spectrum.</*>
+
+<b><#selectbg_g>Base AROMA installer by :</#></b>
+
+  <*> Ryuuji @ItsRyuujiX</*>
