@@ -30,13 +30,15 @@ tg_post_build()
 }
 
 if ! [ -d "$KERNELDIR/ew" ]; then
-mkdir -p ew && cd ew
-bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=09092023
+mkdir -p $KERNELDIR/ew && cd $KERNELDIR/ew
+wget -q https://github.com/Tiktodz/electrowizard-clang/releases/download/ElectroWizard-Clang-18.1.8-release/ElectroWizard-Clang-18.1.8.tar.gz -O "ElectroWizard-Clang-18.1.8.tar.gz"
+tar -xf ElectroWizard-Clang-18.1.8.tar.gz
+rm -rf ElectroWizard-Clang-18.1.8.tar.gz
 cd ..
 fi
 
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
-if ! git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b hmp-old AnyKernel3; then
+if ! git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b hmp AnyKernel3; then
 exit 1
 fi
 fi
