@@ -6,7 +6,7 @@ KERNELDIR=$(pwd)
 CODENAME=Hayzel
 KERNELNAME=TheOneMemory
 VARIANT=HMP
-VERSION=CLO
+VERSION=EOL
 
 TG_TOPIC=0
 BOT_BUILD_URL="https://api.telegram.org/bot$TG_TOKEN/sendDocument"
@@ -56,6 +56,7 @@ KERVER=$(make kernelversion)
 export PATH="$KERNELDIR/ew/bin:$PATH"
 export ARCH=arm64
 export SUBARCH=arm64
+export LD="ld.lld"
 export KBUILD_BUILD_USER="queen"
 export KBUILD_BUILD_HOST=$(source /etc/os-release && echo "${NAME}")
 export KBUILD_COMPILER_STRING="$($KERNELDIR/ew/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
