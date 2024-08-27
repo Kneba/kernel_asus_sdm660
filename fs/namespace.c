@@ -27,10 +27,6 @@
 #include "pnode.h"
 #include "internal.h"
 
-#ifdef CONFIG_KSU
-#include <linux/ksu.h>
-#endif
-
 /* Maximum number of mounts in a mount namespace */
 unsigned int sysctl_mount_max __read_mostly = 100000;
 
@@ -1679,7 +1675,6 @@ static inline bool may_mount(void)
 }
 
 #ifdef CONFIG_KSU
-	if (get_ksu_state() > 0)
 static int can_umount(const struct path *path, int flags)
 {
 	struct mount *mnt = real_mount(path->mnt);
@@ -1698,10 +1693,7 @@ static int can_umount(const struct path *path, int flags)
 		return -EPERM;
 	return 0;
 }
-#endif
 
-#ifdef CONFIG_KSU
-	if (get_ksu_state() > 0)
 int path_umount(struct path *path, int flags)
 {
 	struct mount *mnt = real_mount(path->mnt);
