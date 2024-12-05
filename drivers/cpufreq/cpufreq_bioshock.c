@@ -586,7 +586,7 @@ MODULE_AUTHOR("Jamison904 <tinfamousprollc@gmail.com>");
 MODULE_DESCRIPTION("'cpufreq_bioshock' - The Infmous conservative-based governor.");
 MODULE_LICENSE("GPL");
 
-fs_initcall(cpufreq_gov_dbs_init);
+core_initcall(cpufreq_gov_dbs_init);
 module_exit(cpufreq_gov_dbs_exit);
 
 

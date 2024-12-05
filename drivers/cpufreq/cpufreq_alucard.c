@@ -762,7 +762,7 @@ MODULE_DESCRIPTION("'cpufreq_alucard' - A dynamic cpufreq governor v3.0 (SnapDra
 MODULE_LICENSE("GPL");
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_ALUCARD
-fs_initcall(cpufreq_gov_alucard_init);
+core_initcall(cpufreq_gov_alucard_init);
 #else
 module_init(cpufreq_gov_alucard_init);
 #endif

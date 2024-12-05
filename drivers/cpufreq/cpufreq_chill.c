@@ -471,7 +471,7 @@ MODULE_DESCRIPTION("'cpufreq_chill' - A dynamic cpufreq governor for "
 MODULE_LICENSE("GPL");
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_CHILL
-fs_initcall(cpufreq_gov_dbs_init);
+core_initcall(cpufreq_gov_dbs_init);
 #else
 module_init(cpufreq_gov_dbs_init);
 #endif

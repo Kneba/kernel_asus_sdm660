@@ -390,7 +390,7 @@ MODULE_DESCRIPTION("'cpufreq_darknessv5' - A dynamic cpufreq governor");
 MODULE_LICENSE("GPL");
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_darknessv5
-fs_initcall(cpufreq_gov_darknessv5_init);
+core_initcall(cpufreq_gov_darknessv5_init);
 #else
 module_init(cpufreq_gov_darknessv5_init);
 #endif

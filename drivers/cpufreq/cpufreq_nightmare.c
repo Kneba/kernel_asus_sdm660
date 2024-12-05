@@ -703,7 +703,7 @@ MODULE_DESCRIPTION("'cpufreq_nightmare' - A dynamic cpufreq/cpuhotplug governor 
 MODULE_LICENSE("GPL");
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_NIGHTMARE
-fs_initcall(cpufreq_gov_nightmare_init);
+core_initcall(cpufreq_gov_nightmare_init);
 #else
 module_init(cpufreq_gov_nightmare_init);
 #endif

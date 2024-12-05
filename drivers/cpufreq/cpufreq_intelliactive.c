@@ -1460,7 +1460,7 @@ static int __init cpufreq_intelliactive_init(void)
 }
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_INTELLIACTIVE
-fs_initcall(cpufreq_intelliactive_init);
+core_initcall(cpufreq_intelliactive_init);
 #else
 module_init(cpufreq_intelliactive_init);
 #endif

@@ -1359,7 +1359,7 @@ static int __init cpufreq_blu_active_init(void)
 }
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_BLU_ACTIVE
-fs_initcall(cpufreq_blu_active_init);
+core_initcall(cpufreq_blu_active_init);
 #else
 module_init(cpufreq_blu_active_init);
 #endif

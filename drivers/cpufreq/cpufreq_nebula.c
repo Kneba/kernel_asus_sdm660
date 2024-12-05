@@ -1136,7 +1136,7 @@ static int __init cpufreq_nebula_init(void)
 	return cpufreq_register_governor(&cpufreq_gov_nebula);
 }
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_nebula
-fs_initcall(cpufreq_nebula_init);
+core_initcall(cpufreq_nebula_init);
 #else
 module_init(cpufreq_nebula_init);
 #endif
