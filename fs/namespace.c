@@ -1694,7 +1694,6 @@ inline bool may_mount(void)
 }
 
 #ifdef CONFIG_KSU
-	if (get_ksu_state() > 0)
 static int can_umount(const struct path *path, int flags)
 {
 	struct mount *mnt = real_mount(path->mnt);
@@ -1713,10 +1712,7 @@ static int can_umount(const struct path *path, int flags)
 		return -EPERM;
 	return 0;
 }
-#endif
 
-#ifdef CONFIG_KSU
-	if (get_ksu_state() > 0)
 int path_umount(struct path *path, int flags)
 {
 	struct mount *mnt = real_mount(path->mnt);
