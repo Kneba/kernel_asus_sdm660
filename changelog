@@ -1,0 +1,42 @@
+<b><#selectbg_g>Dec 06,2024</#></b>
+
+  <*> KernelSU UNOFFICIAL v1.0.2 support</*>
+  <*> soc: qcom: glink: use power efficient workqueues</*>
+  <*> kernel: do not build modules.order</*>
+  <*> bwb: Update WL List & Enable by default</*>
+  <*> Add more  WakeLock Toggles with Optimizations</*>
+  <*> PEWQ's to a few subsystems</*>
+  <*> ANDROID: uid_sys_stats: avoid double accounting of dying threads</*>
+  <*> ANDROID: fix overflow in /proc/uid_cputime/remove_uid_range</*>
+  <*> Add some tweak changes, and performance improvements</*>
+
+
+
+<b><#selectbg_g>NOTES eng:</#></b>
+
+  <*> I think the 1TB storage problem no longer exists:)</*>
+  <*> Spectrum will only work well if you use the OC option</*>
+  <*> Use KernelSU manager that we have provided, because the official version no longer supports non-GKI kernel</*>
+  <*> Kernel need sometimes to settle.</*>
+
+
+
+<b><#selectbg_g>NOTES id:</#></b>
+  <*> Saya rasa masalah penyimpanan 1TB sudah tidak ada lagi:)</*>
+  <*> Spectrum hanya akan bekerja dengan baik jika Anda menggunakan opsi OC</*>
+  <*> Gunakan KernelSU manager yang telah kami berikan, karena versi official tidak lagi mendukung kernel non-GKI</*>
+  <*> Kernel perlu beberapa waktu untuk beradaptasi.</*>
+
+
+
+<b><#selectbg_g>AROMA installer MOD by :</#></b>
+
+  <*> Ryuuji @ItsRyuujiX</*>
+
+
+
+
+
+
+  <*> You have additional income? please donate</*>
+  <*> Berikan kami donasi agar kernel ini selalu update!</*>
