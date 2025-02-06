@@ -363,7 +363,6 @@ SYSCALL_DEFINE3(faccessat, int, dfd, const char __user *, filename, int, mode)
 	unsigned int lookup_flags = LOOKUP_FOLLOW;
 	
 #ifdef CONFIG_KSU
-	if (get_ksu_state() > 0)
 		ksu_handle_faccessat(&dfd, &filename, &mode, NULL);
 #endif
 
