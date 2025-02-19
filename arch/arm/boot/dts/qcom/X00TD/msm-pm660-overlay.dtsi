@@ -69,11 +69,11 @@
 
 &pm660_charger {
 	qcom,chg-alert-vadc = <&pm660_vadc>;
-
+	qcom,fastchg-current-ma = <3000>;
 	qcom,micro-usb;
-	qcom,fcc-max-ua = <1000000>;
+	qcom,fcc-max-ua = <3000000>;
 	qcom,fv-max-uv = <4350000>;
-	qcom,usb-icl-ua = <1000000>;
+	qcom,usb-icl-ua = <2750000>;
 	qcom,float-option = <1>;
 	qcom,auto-recharge-soc;
 	qcom,pm-gpio3-vadc = <&pm660_vadc>;	
@@ -96,12 +96,12 @@
 	qcom,fg-esr-broad-lt-filter-micro-pct = <2200>;
 	qcom,slope-limit-temp-threshold = <150>;
 	qcom,slope-limit-coeffs = <3 3 3 3>;
-	qcom,fg-chg-term-current = <150>;
-	qcom,fg-sys-term-current = <(-200)>;
+	qcom,fg-chg-term-current = <200>;
+	qcom,fg-sys-term-current = <(-300)>;
 	qcom,hold-soc-while-full;
 	qcom,linearize-soc;
 	qcom,fg-force-load-profile;
-	qcom,fg-jeita-thresholds = <0 5 55 60>;
+	qcom,fg-jeita-thresholds = <0 15 45 60>;
 	qcom,fg-jeita-hyst-temp = <3>;
 	qcom,fg-batt-temp-delta = <6>;
 	qcom,fg-recharge-voltage = <4150>;
