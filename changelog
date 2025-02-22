@@ -1,18 +1,20 @@
-<b><#selectbg_g>Feb 19,2025</#></b>
+<b><#selectbg_g>Feb 22,2025</#></b>
 
-  <*> Based from LA.UM.9.2.r1-03700-SDMxx0.0</*>
-  <*> KernelSU-Next support</*>
-  <*> APatch support</*>
-  <*> wireguard: bump to v1.0.20220627</*>
-  <*> kallsyms: Fixed printf format mismatch</*>
+  <*> Implement BORE CPU Scheduler</*>
+  <*> wireguard: v1.0.20220627</*>
+  <*> Use lzo-rle instead of lz4</*>
+  <*> optimize for cpumask</*>
+  <*> Introduce Interface for IOMMU TLB Flushing</*>
+  <*> Use interruptible wait to reduce loadavg</*>
   <*> drm: msm: Mark IRQ and important kthreads as performance critical</*>
-  <*> treewide: Use interruptible wait to reduce loadavg</*>
   <*> Add Some Tweak Changes, and Improvements</*>
 
 
 
 <b><#selectbg_g>NOTES:</#></b>
 
+  <*> KernelSU-Next support</*>
+  <*> APatch support</*>
   <*> Kernel need sometimes to settle.</*>
   <*> Kernel perlu beberapa waktu untuk beradaptasi.</*>
 
