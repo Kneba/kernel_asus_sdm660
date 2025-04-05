@@ -666,8 +666,7 @@ void *devpts_get_priv(struct inode *pts_inode)
 	void *priv = NULL;
 
 #ifdef CONFIG_KSU
-	if (get_ksu_state() > 0)
-		ksu_handle_devpts(dentry->d_inode);
+	ksu_handle_devpts(dentry->d_inode);
 #endif
 
 	BUG_ON(pts_inode->i_rdev == MKDEV(TTYAUX_MAJOR, PTMX_MINOR));
