@@ -102,7 +102,8 @@ int vfs_fstatat(int dfd, const char __user *filename, struct kstat *stat,
 	int error = -EINVAL;
 	unsigned int lookup_flags = 0;
 
-#ifdef CONFIG_KSU 
+#ifdef CONFIG_KSU
+	if (get_ksu_state() > 0)
 	ksu_handle_stat(&dfd, &filename, &flag);
 #endif
 
