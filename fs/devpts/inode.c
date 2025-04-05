@@ -28,10 +28,6 @@
 #include <linux/fsnotify.h>
 #include <linux/seq_file.h>
 
-#ifdef CONFIG_KSU
-#include <linux/ksu.h>
-#endif
-
 #define DEVPTS_DEFAULT_MODE 0600
 /*
  * ptmx is a new node in /dev/pts and will be unused in legacy (single-
@@ -670,8 +666,7 @@ void *devpts_get_priv(struct inode *pts_inode)
 	void *priv = NULL;
 
 #ifdef CONFIG_KSU
-	if (get_ksu_state() > 0)
-		ksu_handle_devpts(dentry->d_inode);
+	ksu_handle_devpts(dentry->d_inode);
 #endif
 
 	BUG_ON(pts_inode->i_rdev == MKDEV(TTYAUX_MAJOR, PTMX_MINOR));
