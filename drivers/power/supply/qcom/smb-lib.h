@@ -69,7 +69,7 @@ enum print_reason {
 #define OV_VOTER			"OV_VOTER"
 #define FCC_STEPPER_VOTER		"FCC_STEPPER_VOTER"
 
-#ifdef CONFIG_MACH_XIAOMI_MSM8998
+#ifdef CONFIG_MACH_ASUS_SDM660
 #define FB_SCREEN_VOTER			"FB_SCREEN_VOTER"
 #endif
 
@@ -272,7 +272,7 @@ struct smb_charger {
 
 	/* notifiers */
 	struct notifier_block	nb;
-#ifdef CONFIG_MACH_XIAOMI_MSM8998
+#ifdef CONFIG_MACH_ASUS_SDM660
 	struct notifier_block	fb_state_notifier;
 #endif
 
@@ -334,7 +334,7 @@ struct smb_charger {
 	int			boost_threshold_ua;
 	int			system_temp_level;
 	int			thermal_levels;
-#ifdef CONFIG_MACH_XIAOMI_MSM8998
+#ifdef CONFIG_MACH_ASUS_SDM660
 	int			*thermal_mitigation_dcp;
 	int			*thermal_mitigation_qc3;
 	int			*thermal_mitigation_qc2;
@@ -369,7 +369,7 @@ struct smb_charger {
 	bool			use_extcon;
 	bool			otg_present;
 	bool			fcc_stepper_mode;
-#ifdef CONFIG_MACH_XIAOMI_MSM8998
+#ifdef CONFIG_MACH_ASUS_SDM660
 	bool			screen_on;
 #endif
 
