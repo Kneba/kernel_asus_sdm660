@@ -2127,7 +2127,7 @@ static int smblib_fb_state_cb(struct notifier_block *self,
 	blank = *(int *)(evdata->data);
 	switch (blank) {
 	case FB_BLANK_UNBLANK:
-		chg->screen_on = true;
+		chg->screen_on = false;
 		check_ms = SCREEN_ON_CHECK_MS;
 		break;
 	case FB_BLANK_POWERDOWN:
