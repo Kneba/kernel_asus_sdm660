@@ -49,9 +49,11 @@
 #include <linux/fb.h>
 #endif
 
+#ifdef CONFIG_MACH_ASUS_SDM660
 static bool const_icl_enable = true;
 module_param(const_icl_enable, bool, 0644);
 #define CONST_ICL_UA 2500000
+#endif
 
 #define smblib_err(chg, fmt, ...)		\
 	pr_err("%s: %s: " fmt, chg->name,	\
@@ -142,8 +144,10 @@ void asus_smblib_relax(struct smb_charger *chg)
 }
 #endif
 
-static unsigned int forced_current = 0;
+#ifdef CONFIG_MACH_ASUS_SDM660
+static unsigned int forced_current = 1;
 module_param(forced_current, uint, S_IWUSR | S_IRUGO);
+#endif
 
 static bool is_secure(struct smb_charger *chg, int addr)
 {
@@ -1108,7 +1112,7 @@ int smblib_set_icl_current(struct smb_charger *chg, int icl_ua)
 		return smblib_set_usb_suspend(chg, true);
 
 	if (forced_current)
-		return smblib_force_icl_current(chg, forced_current * 1000);
+		return smblib_force_icl_current(chg, forced_current * 2500);
 
 	if (icl_ua == INT_MAX)
 		goto override_suspend_config;
@@ -2140,7 +2144,7 @@ int smblib_set_prop_batt_capacity(struct smb_charger *chg,
 }
 
 #ifdef CONFIG_MACH_ASUS_SDM660
-#define SCREEN_ON_ICL		3200000
+#define SCREEN_ON_ICL		2500000
 #define SCREEN_ON_CHECK_MS	90000
 #define SCREEN_OFF_CHECK_MS	5000
 static void smblib_fb_state_work(struct work_struct *work)
@@ -2988,7 +2992,7 @@ int smblib_set_prop_sdp_current_max(struct smb_charger *chg,
 	int rc;
 
 	if (forced_current)
-		return smblib_force_icl_current(chg, forced_current * 1000);
+		return smblib_force_icl_current(chg, forced_current * 2500);
 
 	if (!chg->pd_active) {
 		rc = smblib_handle_usb_current(chg, val->intval);
