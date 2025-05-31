@@ -265,7 +265,7 @@ enum clk_osm_trace_packet_id {
 
 #define F(f, s, h, m, n) { (f), (s), (2 * (h) - 1), (m), (n) }
 
-unsigned int is_cpu_overclocked = 0;
+unsigned int is_cpu_overclocked = 1;
 
 static int __init read_cpu_overclock_state(char *s)
 {

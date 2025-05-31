@@ -58,7 +58,7 @@ MODULE_PARM_DESC(nopreempt, "Disable GPU preemption");
 
 #define KGSL_LOG_LEVEL_DEFAULT 0
 
-unsigned int is_gpu_overclocked = 0;
+unsigned int is_gpu_overclocked = 1;
 
 static int __init read_gpu_overclock_state(char *s)
 {
