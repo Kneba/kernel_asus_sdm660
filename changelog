@@ -1,4 +1,4 @@
-<b><#selectbg_g>Jun 13,2025</#></b>
+<b><#selectbg_g>Jun 14,2025</#></b>
 
   <*> Based from LineageOS and SkyWalker</*>
   <*> CIP Provides Super-Long-Term Stable</*>
@@ -6,9 +6,6 @@
   <*> APatch support</*>
   <*> Merge manually with linux-4.4.y-cip</*>
   <*> Add Some Tweak Changes, and Improvements</*>
-
-
-<b><#selectbg_g>Please Disable KernelSU if you want to use APatch method</#></b>
 
 
 
@@ -31,3 +28,7 @@
 
   <*> You have additional income? please donate</*>
   <*> Berikan kami donasi supaya kernel ini selalu update!</*>
+
+<b><#selectbg_g>Recommended :</#></b>
+
+<b><#selectbg_g>Please Disable KernelSU if you want to use APatch method</#></b>
