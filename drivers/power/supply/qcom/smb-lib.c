@@ -2032,21 +2032,38 @@ int smblib_get_prop_from_bms(struct smb_charger *chg,
 	return rc;
 }
 
+/**
+ * smblib_get_prop_battery_charging_enabled - Get the battery charging enabled status
+ * @chg: Pointer to the smb_charger structure
+ * @val: Pointer to power_supply_propval union to store the result
+ *
+ * Reads the CHARGING_ENABLE_CMD register to determine whether charging
+ * is currently enabled or not. Sets val->intval to 1 if charging is enabled,
+ * or 0 if it is disabled.
+ *
+ * Return: 0 on success, negative errno on failure
+ */
 int smblib_get_prop_battery_charging_enabled(struct smb_charger *chg,
 					     union power_supply_propval *val)
 {
-	int rc;
-	u8 reg;
+	int rc;     // Return code for register read
+	u8 reg;     // Variable to store register value
 
+	// Read the CHARGING_ENABLE_CMD register
 	rc = smblib_read(chg, CHARGING_ENABLE_CMD_REG, &reg);
 	if (rc < 0) {
+		// Log error if reading the register fails
 		smblib_err(chg,
 			"Couldn't read battery CHARGING_ENABLE_CMD rc=%d\n", rc);
 		return rc;
 	}
 
+	// Mask the register value to isolate the CHARGING_ENABLE_CMD_BIT
 	reg = reg & CHARGING_ENABLE_CMD_BIT;
+
+	// Set the return value based on whether charging is enabled (bit is set)
 	val->intval = (reg == CHARGING_ENABLE_CMD_BIT);
+
 	return 0;
 }
 
@@ -2170,15 +2187,27 @@ int smblib_set_prop_input_current_limited(struct smb_charger *chg,
 	return 0;
 }
 
-#ifdef CONFIG_MACH_ASUS_SDM660
+/**
+ * smblib_set_prop_battery_charging_enabled - Enable or disable battery charging
+ * @chg: Pointer to the smb_charger structure
+ * @val: Pointer to power_supply_propval union that holds the desired charging state
+ *
+ * Enables or disables battery charging by writing to the CHARGING_ENABLE_CMD register.
+ * If val->intval is 1, charging is enabled.
+ * If val->intval is 0, charging is disabled.
+ *
+ * Return: 0 on success, negative errno on failure
+ */
 int smblib_set_prop_battery_charging_enabled(struct smb_charger *chg,
 					     const union power_supply_propval *val)
 {
 	int rc;
 
+	// Debug log showing the function call and intended charging state
 	smblib_dbg(chg, PR_MISC, "%s intval= %x\n", __func__, val->intval);
 
 	if (val->intval == 1) {
+		// Enable charging by setting the CHARGING_ENABLE_CMD_BIT
 		rc = smblib_masked_write(chg, CHARGING_ENABLE_CMD_REG,
 			CHARGING_ENABLE_CMD_BIT, CHARGING_ENABLE_CMD_BIT);
 		if (rc < 0) {
@@ -2186,18 +2215,21 @@ int smblib_set_prop_battery_charging_enabled(struct smb_charger *chg,
 			return rc;
 		}
 	} else if (val->intval == 0) {
+		// Disable charging by clearing the CHARGING_ENABLE_CMD_BIT
 		rc = smblib_masked_write(chg, CHARGING_ENABLE_CMD_REG,
 			CHARGING_ENABLE_CMD_BIT, 0);
 		if (rc < 0) {
 			smblib_err(chg, "Couldn't disable charging rc=%d\n", rc);
 			return rc;
 		}
-	} else
-		smblib_err(chg, "Couldn't disable charging rc=%d\n", rc);
+	} else {
+		// Invalid value passed; log error and return invalid argument
+		smblib_err(chg, "Invalid charging enable value: %d\n", val->intval);
+		return -EINVAL;
+	}
 
 	return 0;
 }
-#endif
 
 int smblib_rerun_aicl(struct smb_charger *chg)
 {
