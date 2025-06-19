@@ -828,7 +828,7 @@ static int pl_fv_vote_callback(struct votable *votable, void *data,
 	return 0;
 }
 
-#define ICL_STEP_UA	25000
+#define ICL_STEP_UA	100000
 #define PL_DELAY_MS     3000
 static int usb_icl_vote_callback(struct votable *votable, void *data,
 			int icl_ua, const char *client)
@@ -860,7 +860,7 @@ static int usb_icl_vote_callback(struct votable *votable, void *data,
 	 *	unvote USBIN_I_VOTER) the status_changed_work enables
 	 *	USBIN_I_VOTER based on settled current.
 	 */
-	if (icl_ua <= 1400000)
+	if (icl_ua <= 1500000)
 		vote(chip->pl_enable_votable_indirect, USBIN_I_VOTER, false, 0);
 	else
 		schedule_delayed_work(&chip->status_change_work,
@@ -877,12 +877,12 @@ static int usb_icl_vote_callback(struct votable *votable, void *data,
 	}
 
 	/* rerun AICL if new ICL is above settled ICL */
-	if (icl_ua > pval.intval)
-		rerun_aicl = true;
+	// if (icl_ua > pval.intval)
+		// rerun_aicl = true; // Force AICL rerun to stay disabled
 
 	if (rerun_aicl) {
-		/* set a lower ICL */
-		pval.intval = max(pval.intval - ICL_STEP_UA, ICL_STEP_UA);
+		/* Don't set a lower ICL */
+		/* pval.intval = max(pval.intval - ICL_STEP_UA, ICL_STEP_UA); */
 		power_supply_set_property(chip->main_psy,
 				POWER_SUPPLY_PROP_CURRENT_MAX,
 				&pval);
@@ -1189,10 +1189,10 @@ static void handle_settled_icl_change(struct pl_data *chip)
 	}
 	main_limited = pval.intval;
 
-	if ((main_limited && (main_settled_ua + chip->pl_settled_ua) < 1400000)
+	if ((main_limited && (main_settled_ua + chip->pl_settled_ua) < 1500000)
 			|| (main_settled_ua == 0)
 			|| ((total_current_ua >= 0) &&
-				(total_current_ua <= 1400000)))
+				(total_current_ua <= 1500000)))
 		vote(chip->pl_enable_votable_indirect, USBIN_I_VOTER, false, 0);
 	else
 		vote(chip->pl_enable_votable_indirect, USBIN_I_VOTER, true, 0);
