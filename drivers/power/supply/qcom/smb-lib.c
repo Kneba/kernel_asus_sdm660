@@ -2002,24 +2002,6 @@ int smblib_get_prop_from_bms(struct smb_charger *chg,
 	return rc;
 }
 
-int smblib_get_prop_battery_charging_enabled(struct smb_charger *chg,
-					     union power_supply_propval *val)
-{
-	int rc;
-	u8 reg;
-
-	rc = smblib_read(chg, CHARGING_ENABLE_CMD_REG, &reg);
-	if (rc < 0) {
-		smblib_err(chg,
-			"Couldn't read battery CHARGING_ENABLE_CMD rc=%d\n", rc);
-		return rc;
-	}
-
-	reg = reg & CHARGING_ENABLE_CMD_BIT;
-	val->intval = (reg == CHARGING_ENABLE_CMD_BIT);
-	return 0;
-}
-
 /***********************
  * BATTERY PSY SETTERS *
  ***********************/
@@ -2139,35 +2121,6 @@ int smblib_set_prop_input_current_limited(struct smb_charger *chg,
 	chg->fake_input_current_limited = val->intval;
 	return 0;
 }
-
-#ifdef CONFIG_MACH_ASUS_SDM660
-int smblib_set_prop_battery_charging_enabled(struct smb_charger *chg,
-					     const union power_supply_propval *val)
-{
-	int rc;
-
-	smblib_dbg(chg, PR_MISC, "%s intval= %x\n", __func__, val->intval);
-
-	if (val->intval == 1) {
-		rc = smblib_masked_write(chg, CHARGING_ENABLE_CMD_REG,
-			CHARGING_ENABLE_CMD_BIT, CHARGING_ENABLE_CMD_BIT);
-		if (rc < 0) {
-			smblib_err(chg, "Couldn't enable charging rc=%d\n", rc);
-			return rc;
-		}
-	} else if (val->intval == 0) {
-		rc = smblib_masked_write(chg, CHARGING_ENABLE_CMD_REG,
-			CHARGING_ENABLE_CMD_BIT, 0);
-		if (rc < 0) {
-			smblib_err(chg, "Couldn't disable charging rc=%d\n", rc);
-			return rc;
-		}
-	} else
-		smblib_err(chg, "Couldn't disable charging rc=%d\n", rc);
-
-	return 0;
-}
-#endif
 
 int smblib_rerun_aicl(struct smb_charger *chg)
 {
