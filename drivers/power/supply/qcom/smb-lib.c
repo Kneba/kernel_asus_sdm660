@@ -2043,7 +2043,6 @@ int smblib_get_prop_from_bms(struct smb_charger *chg,
  *
  * Return: 0 on success, negative errno on failure
  */
-#ifdef CONFIG_MACH_ASUS_SDM660
 int smblib_get_prop_battery_charging_enabled(struct smb_charger *chg,
 					     union power_supply_propval *val)
 {
@@ -2067,7 +2066,6 @@ int smblib_get_prop_battery_charging_enabled(struct smb_charger *chg,
 
 	return 0;
 }
-#endif
 
 /***********************
  * BATTERY PSY SETTERS *
@@ -2200,7 +2198,6 @@ int smblib_set_prop_input_current_limited(struct smb_charger *chg,
  *
  * Return: 0 on success, negative errno on failure
  */
-#ifdef CONFIG_MACH_ASUS_SDM660
 int smblib_set_prop_battery_charging_enabled(struct smb_charger *chg,
 					     const union power_supply_propval *val)
 {
@@ -2233,7 +2230,6 @@ int smblib_set_prop_battery_charging_enabled(struct smb_charger *chg,
 
 	return 0;
 }
-#endif
 
 int smblib_rerun_aicl(struct smb_charger *chg)
 {
